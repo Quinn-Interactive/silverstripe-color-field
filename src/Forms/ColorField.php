@@ -50,6 +50,7 @@ class ColorField extends TextField
    * @param array $properties
    * @return DBHTMLText
    */
+  #[\Override]
   public function Field($properties = []): DBHTMLText
   {
     $this->addExtraClass('c-color-picker__input js-color-picker');
@@ -59,7 +60,7 @@ class ColorField extends TextField
      */
     $style = sprintf(
       'background-image: none; background-color: %s; color: %s;',
-      $this->value ? $this->value : '#ffffff',
+      $this->value ?: '#ffffff',
       $this->getTextColor()
     );
     $this->setAttribute('style', $style);
@@ -67,14 +68,14 @@ class ColorField extends TextField
     /**
      * Apply custom data attributes for the Iris Color Picker.
      */
-    if ($colors = $this->config()->colors) {
+    if ($colors = $this->config()->get('colors')) {
       $pallets = '"' . implode('", "', $colors) . '"';
       $this->setAttribute('data-palette', '[' . $pallets . ']');
     }
 
     $properties['type'] = 'text';
     $properties['tabindex'] = $this->getAttribute('tabindex');
-    $properties['maxlength'] = ($this->maxLength) ? $this->maxLength : null;
+    $properties['maxlength'] = $this->maxLength ?: null;
     $properties['size'] = ($this->maxLength) ? min($this->maxLength, 30) : null;
 
     /**
@@ -87,15 +88,6 @@ class ColorField extends TextField
     $obj = ($properties) ? $this->customise($properties) : $this;
 
     return $obj->renderWith($this->getTemplates());
-  }
-
-  /**
-   * @param \SilverStripe\Forms\Validator $validator
-   * @return bool
-   */
-  function validate($validator): bool
-  {
-    return true;
   }
 
   /**
