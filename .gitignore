@@ -6,3 +6,11 @@
 *.map
 /.sass-cache/
 /node_modules/
+/vendor/
+/composer.lock
+/resources/
+/_resources/
+/.vscode/
+/.php-cs-fixer.cache
+/public/
+/phpstan.neon
